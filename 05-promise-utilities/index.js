@@ -31,7 +31,7 @@ function promiseAll(promises) {
 
   // });
 
-  return Promise.resolve([]); // Replace with your implementation
+  return Promise.reject(new Error('Not implemented')); // Broken: Replace with your implementation
 }
 
 /**
@@ -85,7 +85,7 @@ function promiseAllSettled(promises) {
   // - Never reject the outer promise
   // - Resolve when all have settled
 
-  return Promise.resolve([]); // Replace with your implementation
+  return Promise.reject(new Error('Not implemented')); // Broken: Replace with your implementation
 }
 
 /**

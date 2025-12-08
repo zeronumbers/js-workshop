@@ -35,9 +35,7 @@ class Observable {
 
     // Step 5: Return subscription object with unsubscribe method
 
-    return {
-      unsubscribe: () => {}
-    };
+    throw new Error('Not implemented');
   }
 
   /**
@@ -53,7 +51,7 @@ class Observable {
     // - Calls fn on each value
     // - Emits transformed value
 
-    return this; // Replace with new Observable
+    return new Observable(() => {}); // Broken: Replace with implementation
   }
 
   /**
@@ -68,7 +66,7 @@ class Observable {
     // - Subscribes to source (this)
     // - Only emits values where predicate returns true
 
-    return this; // Replace with new Observable
+    return new Observable(() => {}); // Broken: Replace with implementation
   }
 
   /**
@@ -84,7 +82,7 @@ class Observable {
     // - Emits first `count` values
     // - Completes after `count` values
 
-    return this; // Replace with new Observable
+    return new Observable(() => {}); // Broken: Replace with implementation
   }
 
   /**
@@ -100,7 +98,7 @@ class Observable {
     // - Ignores first `count` values
     // - Emits remaining values
 
-    return this; // Replace with new Observable
+    return new Observable(() => {}); // Broken: Replace with implementation
   }
 
   /**

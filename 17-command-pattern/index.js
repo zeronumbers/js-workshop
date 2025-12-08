@@ -45,7 +45,7 @@ class CommandManager {
 
     // Step 5: Return true
 
-    return false;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -65,7 +65,7 @@ class CommandManager {
 
     // Step 5: Return true
 
-    return false;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -74,7 +74,7 @@ class CommandManager {
    */
   canUndo() {
     // TODO: Return whether undo stack has items
-    return false;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -83,7 +83,7 @@ class CommandManager {
    */
   canRedo() {
     // TODO: Return whether redo stack has items
-    return false;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -92,7 +92,7 @@ class CommandManager {
    */
   get history() {
     // TODO: Return copy of undo stack
-    return [];
+    throw new Error('Not implemented');
   }
 
   /**

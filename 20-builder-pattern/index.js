@@ -24,7 +24,7 @@ class QueryBuilder {
    */
   select(...columns) {
     // TODO: Store columns
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -34,7 +34,7 @@ class QueryBuilder {
    */
   from(table) {
     // TODO: Store table name
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -46,7 +46,7 @@ class QueryBuilder {
    */
   where(column, operator, value) {
     // TODO: Store where clause
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -57,7 +57,7 @@ class QueryBuilder {
    */
   orderBy(column, direction = 'ASC') {
     // TODO: Store order by clause
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -67,7 +67,7 @@ class QueryBuilder {
    */
   limit(count) {
     // TODO: Store limit
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -77,7 +77,7 @@ class QueryBuilder {
   build() {
     // TODO: Build and return query string
     // Format: SELECT cols FROM table WHERE clauses ORDER BY clause LIMIT n
-    return '';
+    throw new Error('Not implemented');
   }
 
   /**
@@ -86,7 +86,7 @@ class QueryBuilder {
    */
   reset() {
     // TODO: Reset all state
-    return this;
+    throw new Error('Not implemented');
   }
 }
 
@@ -113,7 +113,7 @@ class HTMLBuilder {
    */
   tag(name) {
     // TODO: Store tag name
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -123,7 +123,7 @@ class HTMLBuilder {
    */
   id(id) {
     // TODO: Store id
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -133,7 +133,7 @@ class HTMLBuilder {
    */
   class(...classNames) {
     // TODO: Store classes
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -144,7 +144,7 @@ class HTMLBuilder {
    */
   attr(name, value) {
     // TODO: Store attribute
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -154,7 +154,7 @@ class HTMLBuilder {
    */
   content(content) {
     // TODO: Store content
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -164,7 +164,7 @@ class HTMLBuilder {
    */
   child(childHtml) {
     // TODO: Store child
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -174,7 +174,7 @@ class HTMLBuilder {
   build() {
     // TODO: Build and return HTML string
     // Format: <tag id="..." class="..." attrs>content</tag>
-    return '';
+    throw new Error('Not implemented');
   }
 
   /**
@@ -183,7 +183,7 @@ class HTMLBuilder {
    */
   reset() {
     // TODO: Reset all state
-    return this;
+    throw new Error('Not implemented');
   }
 }
 
@@ -210,7 +210,7 @@ class ConfigBuilder {
    */
   setEnvironment(env) {
     // TODO: Set environment
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -220,7 +220,7 @@ class ConfigBuilder {
    */
   setDatabase(dbConfig) {
     // TODO: Set database config
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -230,7 +230,7 @@ class ConfigBuilder {
    */
   enableFeature(feature) {
     // TODO: Add feature to list
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -240,7 +240,7 @@ class ConfigBuilder {
    */
   disableFeature(feature) {
     // TODO: Remove feature from list
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -250,7 +250,7 @@ class ConfigBuilder {
    */
   setLogLevel(level) {
     // TODO: Set log level
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -259,7 +259,7 @@ class ConfigBuilder {
    */
   build() {
     // TODO: Return copy of config
-    return {};
+    throw new Error('Not implemented');
   }
 }
 
@@ -279,7 +279,7 @@ class RequestBuilder {
    * @returns {RequestBuilder} this
    */
   method(method) {
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -288,7 +288,7 @@ class RequestBuilder {
    * @returns {RequestBuilder} this
    */
   path(path) {
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -298,7 +298,7 @@ class RequestBuilder {
    * @returns {RequestBuilder} this
    */
   query(key, value) {
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -308,7 +308,7 @@ class RequestBuilder {
    * @returns {RequestBuilder} this
    */
   header(key, value) {
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -317,7 +317,7 @@ class RequestBuilder {
    * @returns {RequestBuilder} this
    */
   body(body) {
-    return this;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -326,7 +326,7 @@ class RequestBuilder {
    */
   build() {
     // TODO: Return fetch-compatible config
-    return {};
+    throw new Error('Not implemented');
   }
 }
 

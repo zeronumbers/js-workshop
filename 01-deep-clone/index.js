@@ -35,7 +35,7 @@ function deepClone(value, visited = new WeakMap()) {
   // Step 8: Handle plain Objects
   // Create a new object and deep clone each property
 
-  return value; // Replace with your implementation
+  return undefined; // Broken: Replace with your implementation
 }
 
 module.exports = { deepClone };

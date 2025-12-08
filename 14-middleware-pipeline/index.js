@@ -23,7 +23,7 @@ class Pipeline {
 
     // Step 3: Return this for chaining
 
-    return this;
+    return null; // Broken: should return this
   }
 
   /**
@@ -45,7 +45,8 @@ class Pipeline {
 
     // Step 3: Return promise for async support
 
-    return Promise.resolve();
+    // Broken: rejects instead of resolving
+    return Promise.reject(new Error('Not implemented'));
   }
 
   /**
@@ -89,7 +90,8 @@ function compose(middleware) {
       // Step 4: Call middleware with (context, next)
       // Step 5: Return as promise
 
-      return Promise.resolve();
+      // Broken: rejects instead of resolving
+      return Promise.reject(new Error('Not implemented'));
     }
 
     return dispatch(0);
@@ -111,7 +113,7 @@ function when(condition, middleware) {
   // - If true, runs middleware
   // - If false, just calls next()
 
-  return (ctx, next) => next();
+  return (ctx, next) => { throw new Error('Not implemented'); };
 }
 
 /**
@@ -128,11 +130,7 @@ function errorMiddleware(errorHandler) {
   // - Calls errorHandler if error thrown
 
   return async (ctx, next) => {
-    try {
-      await next();
-    } catch (error) {
-      errorHandler(error, ctx);
-    }
+    throw new Error('Not implemented');
   };
 }
 

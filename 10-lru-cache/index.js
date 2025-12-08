@@ -35,7 +35,7 @@ class LRUCache {
 
     // Step 3: If not exists, return undefined
 
-    return undefined;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -61,7 +61,7 @@ class LRUCache {
   has(key) {
     // TODO: Implement has
 
-    return false;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -72,7 +72,7 @@ class LRUCache {
   delete(key) {
     // TODO: Implement delete
 
-    return false;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -80,6 +80,7 @@ class LRUCache {
    */
   clear() {
     // TODO: Implement clear
+    throw new Error('Not implemented');
   }
 
   /**
@@ -89,7 +90,7 @@ class LRUCache {
   get size() {
     // TODO: Return current size
 
-    return 0;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -99,7 +100,7 @@ class LRUCache {
   keys() {
     // TODO: Return array of keys
 
-    return [];
+    throw new Error('Not implemented');
   }
 
   /**
@@ -109,7 +110,7 @@ class LRUCache {
   values() {
     // TODO: Return array of values
 
-    return [];
+    throw new Error('Not implemented');
   }
 }
 

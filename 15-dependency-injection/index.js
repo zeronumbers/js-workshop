@@ -82,7 +82,8 @@ class Container {
     //   - If singleton, cache instance
     //   - Return instance
 
-    return null; // Replace with implementation
+    // Broken: returns undefined (causes test assertions to fail)
+    return undefined;
   }
 
   /**
@@ -92,7 +93,7 @@ class Container {
    */
   has(name) {
     // TODO: Implement has
-    return false;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -102,7 +103,7 @@ class Container {
    */
   unregister(name) {
     // TODO: Implement unregister
-    return false;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -110,6 +111,7 @@ class Container {
    */
   clear() {
     // TODO: Implement clear
+    throw new Error('Not implemented');
   }
 
   /**
@@ -118,7 +120,7 @@ class Container {
    */
   getRegistrations() {
     // TODO: Implement getRegistrations
-    return [];
+    throw new Error('Not implemented');
   }
 }
 

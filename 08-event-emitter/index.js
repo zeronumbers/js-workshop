@@ -24,7 +24,7 @@ class EventEmitter {
 
     // Step 3: Return this for chaining
 
-    return this;
+    return null; // Broken: should return this
   }
 
   /**
@@ -43,7 +43,7 @@ class EventEmitter {
 
     // Step 3: Return this for chaining
 
-    return this;
+    return null; // Broken: should return this
   }
 
   /**
@@ -64,7 +64,7 @@ class EventEmitter {
 
     // Step 4: Return true
 
-    return false;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -86,7 +86,7 @@ class EventEmitter {
 
     // Step 4: Return this for chaining
 
-    return this;
+    return null; // Broken: should return this
   }
 
   /**
@@ -100,7 +100,7 @@ class EventEmitter {
     // If event is provided, remove only that event's listeners
     // If no event, clear all events
 
-    return this;
+    return null; // Broken: should return this
   }
 
   /**
@@ -113,7 +113,7 @@ class EventEmitter {
 
     // Return copy of listeners array, or empty array if none
 
-    return [];
+    throw new Error('Not implemented');
   }
 
   /**
@@ -124,7 +124,7 @@ class EventEmitter {
   listenerCount(event) {
     // TODO: Implement listenerCount
 
-    return 0;
+    throw new Error('Not implemented');
   }
 }
 

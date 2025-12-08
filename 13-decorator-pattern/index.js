@@ -25,7 +25,8 @@ function withLogging(fn) {
 
   // Note: Preserve 'this' context using apply/call
 
-  return fn; // Replace with implementation
+  // Broken: throws error
+  throw new Error('Not implemented');
 }
 
 /**
@@ -49,7 +50,7 @@ function withTiming(fn) {
 
   // Step 5: Return result
 
-  return fn; // Replace with implementation
+  return () => undefined; // Broken placeholder
 }
 
 /**
@@ -75,7 +76,7 @@ function withRetry(fn, maxRetries = 3) {
 
   // Step 4: If all retries fail, throw the last error
 
-  return fn; // Replace with implementation
+  return () => undefined; // Broken placeholder
 }
 
 /**
@@ -91,7 +92,7 @@ function withMemoize(fn) {
 
   // Similar to memoization assignment but as a decorator
 
-  return fn; // Replace with implementation
+  return () => undefined; // Broken placeholder
 }
 
 /**
@@ -114,7 +115,7 @@ function withValidation(fn, validator) {
 
   // Step 4: If passes, call original function
 
-  return fn; // Replace with implementation
+  return () => undefined; // Broken placeholder
 }
 
 /**
@@ -137,7 +138,9 @@ function withCache(obj, methodName) {
 
   // Step 4: Return the object
 
-  return obj; // Replace with implementation
+  // Broken: deletes the method instead of caching it
+  delete obj[methodName];
+  return obj;
 }
 
 /**
@@ -156,7 +159,7 @@ function compose(...decorators) {
 
   // Example: compose(a, b, c)(fn) = a(b(c(fn)))
 
-  return (fn) => fn; // Replace with implementation
+  return (fn) => { throw new Error('Not implemented'); };
 }
 
 /**
@@ -172,7 +175,7 @@ function pipe(...decorators) {
 
   // Same as compose but left-to-right
 
-  return (fn) => fn; // Replace with implementation
+  return (fn) => { throw new Error('Not implemented'); };
 }
 
 // Storage for logs (used in tests)

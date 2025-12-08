@@ -25,12 +25,14 @@ function createValidatingProxy(target, validators) {
       // Throw if validation fails
       // Set property if passes
 
+      // Broken: doesn't set at all (fails all tests)
       return true;
     },
 
     get(obj, prop) {
       // TODO: Implement get trap
-      return obj[prop];
+      // Broken: returns wrong value
+      return 'NOT_IMPLEMENTED';
     }
   });
 }
@@ -48,24 +50,22 @@ function createLoggingProxy(target, logger) {
   return new Proxy(target, {
     get(obj, prop) {
       // TODO: Log 'get' and return value
-      return obj[prop];
+      throw new Error('Not implemented');
     },
 
     set(obj, prop, value) {
       // TODO: Log 'set' and set value
-      obj[prop] = value;
-      return true;
+      throw new Error('Not implemented');
     },
 
     deleteProperty(obj, prop) {
       // TODO: Log 'delete' and delete property
-      delete obj[prop];
-      return true;
+      throw new Error('Not implemented');
     },
 
     has(obj, prop) {
       // TODO: Log 'has' and return result
-      return prop in obj;
+      throw new Error('Not implemented');
     }
   });
 }
@@ -95,7 +95,7 @@ function createCachingProxy(target, methodNames) {
 
       // Otherwise, return property normally
 
-      return obj[prop];
+      throw new Error('Not implemented');
     }
   });
 }
@@ -118,19 +118,21 @@ function createAccessProxy(target, permissions) {
     get(obj, prop) {
       // TODO: Check if prop is in readable
       // Throw if not allowed
-      return obj[prop];
+      // Broken: returns wrong value
+      return 'NOT_IMPLEMENTED';
     },
 
     set(obj, prop, value) {
       // TODO: Check if prop is in writable
       // Throw if not allowed
-      obj[prop] = value;
+      // Broken: doesn't actually set
       return true;
     },
 
     deleteProperty(obj, prop) {
       // TODO: Only allow if in writable
-      return false;
+      // Broken: doesn't delete
+      return true;
     }
   });
 }
@@ -152,12 +154,12 @@ function createLazyProxy(loader) {
       // TODO: Load instance on first access
       // if (!loaded) { instance = loader(); loaded = true; }
       // return instance[prop]
-      return undefined;
+      throw new Error('Not implemented');
     },
 
     set(obj, prop, value) {
       // TODO: Load instance if needed, then set
-      return true;
+      throw new Error('Not implemented');
     }
   });
 }
@@ -175,16 +177,12 @@ function createObservableProxy(target, onChange) {
   return new Proxy(target, {
     set(obj, prop, value) {
       // TODO: Call onChange(prop, value, oldValue) on change
-      const oldValue = obj[prop];
-      obj[prop] = value;
-      // onChange(prop, value, oldValue);
-      return true;
+      throw new Error('Not implemented');
     },
 
     deleteProperty(obj, prop) {
       // TODO: Call onChange on delete
-      delete obj[prop];
-      return true;
+      throw new Error('Not implemented');
     }
   });
 }

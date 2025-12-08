@@ -87,7 +87,7 @@ class AsyncQueue {
    */
   get size() {
     // TODO: Return queue length
-    return 0;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -96,7 +96,7 @@ class AsyncQueue {
    */
   get pending() {
     // TODO: Return running count
-    return 0;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -105,7 +105,7 @@ class AsyncQueue {
    */
   get isPaused() {
     // TODO: Return paused state
-    return false;
+    throw new Error('Not implemented');
   }
 
   /**

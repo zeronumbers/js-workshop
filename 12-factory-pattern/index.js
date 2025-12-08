@@ -108,7 +108,7 @@ class Factory {
   unregister(type) {
     // TODO: Implement unregister
 
-    return false;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -141,7 +141,7 @@ class Factory {
   has(type) {
     // TODO: Implement has
 
-    return false;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -151,7 +151,7 @@ class Factory {
   getTypes() {
     // TODO: Implement getTypes
 
-    return [];
+    throw new Error('Not implemented');
   }
 
   /**
@@ -159,6 +159,7 @@ class Factory {
    */
   clear() {
     // TODO: Implement clear
+    throw new Error('Not implemented');
   }
 }
 

@@ -24,7 +24,7 @@ class SortContext {
   sort(array) {
     // TODO: Delegate to strategy
     // Return sorted copy, don't mutate original
-    return [];
+    throw new Error('Not implemented');
   }
 }
 
@@ -36,7 +36,7 @@ class BubbleSort {
     // TODO: Implement bubble sort
     // Return new sorted array
 
-    return [...array]; // Replace with implementation
+    return ['NOT_IMPLEMENTED']; // Broken: Replace with implementation
   }
 }
 
@@ -48,7 +48,7 @@ class QuickSort {
     // TODO: Implement quick sort
     // Return new sorted array
 
-    return [...array]; // Replace with implementation
+    return []; // Broken: Replace with implementation
   }
 }
 
@@ -60,7 +60,7 @@ class MergeSort {
     // TODO: Implement merge sort
     // Return new sorted array
 
-    return [...array]; // Replace with implementation
+    return []; // Broken: Replace with implementation
   }
 }
 
@@ -84,7 +84,7 @@ class PricingContext {
 
   calculateTotal(items) {
     // TODO: Delegate to strategy
-    return 0;
+    throw new Error('Not implemented');
   }
 }
 
@@ -94,7 +94,7 @@ class PricingContext {
 class RegularPricing {
   calculate(items) {
     // TODO: Sum all item prices
-    return 0;
+    throw new Error('Not implemented');
   }
 }
 
@@ -110,7 +110,7 @@ class PercentageDiscount {
   calculate(items) {
     // TODO: Apply percentage discount
     // total * (1 - percentage/100)
-    return 0;
+    throw new Error('Not implemented');
   }
 }
 
@@ -126,7 +126,7 @@ class FixedDiscount {
   calculate(items) {
     // TODO: Subtract fixed amount from total
     // Don't go below 0
-    return 0;
+    throw new Error('Not implemented');
   }
 }
 
@@ -137,7 +137,7 @@ class BuyOneGetOneFree {
   calculate(items) {
     // TODO: Every second item is free
     // Sort by price desc, charge only every other item
-    return 0;
+    throw new Error('Not implemented');
   }
 }
 
@@ -155,7 +155,7 @@ class TieredDiscount {
 
   calculate(items) {
     // TODO: Apply tier discount based on subtotal
-    return 0;
+    throw new Error('Not implemented');
   }
 }
 
@@ -177,7 +177,7 @@ class ValidationContext {
 
   validate(data) {
     // TODO: Delegate to strategy
-    return { valid: false, errors: [] };
+    throw new Error('Not implemented');
   }
 }
 
@@ -188,7 +188,7 @@ class StrictValidation {
   validate(data) {
     // TODO: Strict rules - all fields required, strict format
     // Return { valid: boolean, errors: string[] }
-    return { valid: true, errors: [] };
+    throw new Error('Not implemented');
   }
 }
 
@@ -198,7 +198,7 @@ class StrictValidation {
 class LenientValidation {
   validate(data) {
     // TODO: Lenient rules - only critical fields required
-    return { valid: true, errors: [] };
+    return { valid: false, errors: ['Not implemented'] }; // Broken: Replace with implementation
   }
 }
 
@@ -223,12 +223,12 @@ class StrategyRegistry {
 
   get(name) {
     // TODO: Return strategy by name
-    return null;
+    throw new Error('Not implemented');
   }
 
   has(name) {
     // TODO: Check if strategy exists
-    return false;
+    throw new Error('Not implemented');
   }
 }
 

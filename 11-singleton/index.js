@@ -20,7 +20,7 @@ class Singleton {
 
   static getInstance() {
     // TODO: Implement getInstance
-    return null;
+    throw new Error('Not implemented');
   }
 
   // Step 3: Optionally prevent direct instantiation
@@ -61,7 +61,7 @@ function createSingleton(Class) {
   return {
     getInstance: (...args) => {
       // TODO: Implement
-      return new Class(...args);
+      throw new Error('Not implemented');
     },
     resetInstance: () => {
       // TODO: Implement

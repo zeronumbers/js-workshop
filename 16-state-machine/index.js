@@ -28,7 +28,7 @@ class StateMachine {
    */
   get state() {
     // TODO: Return current state
-    return '';
+    throw new Error('Not implemented');
   }
 
   /**
@@ -58,7 +58,7 @@ class StateMachine {
 
     // Step 7: Return true
 
-    return false;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -72,7 +72,7 @@ class StateMachine {
     // Check if event exists for current state
     // Check guard if present
 
-    return false;
+    throw new Error('Not implemented');
   }
 
   /**
@@ -84,7 +84,7 @@ class StateMachine {
 
     // Return array of event names from current state's 'on' config
 
-    return [];
+    throw new Error('Not implemented');
   }
 
   /**
@@ -93,7 +93,7 @@ class StateMachine {
    */
   getContext() {
     // TODO: Return context
-    return {};
+    throw new Error('Not implemented');
   }
 
   /**
@@ -113,7 +113,7 @@ class StateMachine {
    */
   isFinal() {
     // TODO: Check if current state has no transitions
-    return false;
+    throw new Error('Not implemented');
   }
 
   /**

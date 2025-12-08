@@ -39,7 +39,15 @@ function memoize(fn, options = {}) {
 
   // Step 6: Return memoized function
 
-  return fn; // Replace with your implementation
+  // Return placeholder that doesn't work
+  const memoized = function() { return undefined; };
+  memoized.cache = {
+    clear: () => {},
+    delete: () => false,
+    has: () => false,
+    get size() { return -1; }
+  };
+  return memoized;
 }
 
 module.exports = { memoize };

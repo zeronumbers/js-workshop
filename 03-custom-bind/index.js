@@ -32,7 +32,8 @@ function customBind(fn, context, ...boundArgs) {
 
   // Step 5: Return the bound function
 
-  return fn; // Replace with your implementation
+  // Return placeholder that doesn't work
+  throw new Error('Not implemented');
 }
 
 /**
