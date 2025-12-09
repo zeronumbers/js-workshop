@@ -1,3 +1,38 @@
+const isPrimitive = (() => {
+  // NOTE: without null because it's type is 'object'
+  const TYPE_STRINGS_OF_PRIMITIVES_WITHOUT_NULL = new Set([
+    "undefined",
+    "number",
+    "string",
+    "boolean",
+    "bigint",
+    "symbol",
+    "bigint",
+  ]);
+
+  return (value) => {
+    const valueTypeString = typeof value;
+    return (
+      value === null ||
+      TYPE_STRINGS_OF_PRIMITIVES_WITHOUT_NULL.has(valueTypeString)
+    );
+  };
+})();
+
+// NOTE: date can be invalid, example: new Date('foo') // => Invalid Date
+// Invalid Date is still a Date
+const isDate = (value) =>
+  Object.prototype.toString.call(value) === "[object Date]";
+
+const isRegExp = (value) =>
+  Object.prototype.toString.call(value) === "[object RegExp]";
+
+const isMap = (value) =>
+  Object.prototype.toString.call(value) === "[object Map]";
+
+const isSet = (value) =>
+  Object.prototype.toString.call(value) === "[object Set]";
+
 /**
  * Deep Clone Implementation
  *
@@ -9,33 +44,62 @@
  * @returns {*} A deep clone of the input value
  */
 function deepClone(value, visited = new WeakMap()) {
-  // TODO: Implement deep cloning
+  if (isPrimitive(value)) {
+    return value;
+  }
 
-  // Step 1: Handle primitives (return as-is)
-  // Primitives: null, undefined, number, string, boolean, symbol, bigint
+  // Check for circular references using the visited WeakMap
+  if (visited.has(value)) {
+    return visited.get(value);
+  }
 
-  // Step 2: Check for circular references using the visited WeakMap
-  // If we've seen this object before, return the cached clone
+  // NOTE: Invalid Date is considered a Date, no special handling.
+  if (isDate(value)) {
+    const clone = new Date(value);
+    visited.set(value, clone);
+    return clone;
+  }
 
-  // Step 3: Handle Date objects
-  // Create a new Date with the same time value
+  if (isRegExp(value)) {
+    const clone = new RegExp(value.source, value.flags);
+    visited.set(value, clone);
+    return clone;
+  }
 
-  // Step 4: Handle RegExp objects
-  // Create a new RegExp with the same source and flags
+  if (isMap(value)) {
+    const clone = new Map();
+    visited.set(value, clone);
+    for (const pair of value) {
+      const [newKey, newValue] = deepClone(pair, visited);
+      clone.set(newKey, newValue);
+    }
+    return clone;
+  }
 
-  // Step 5: Handle Map objects
-  // Create a new Map and deep clone each key-value pair
+  if (isSet(value)) {
+    const clone = new Set();
+    visited.set(value, clone);
+    for (const item of value) {
+      clone.add(deepClone(item, visited));
+    }
+    return clone;
+  }
 
-  // Step 6: Handle Set objects
-  // Create a new Set and deep clone each value
+  if (Array.isArray(value)) {
+    const clone = [];
+    visited.set(value, clone);
+    for (const item of value) {
+      clone.push(deepClone(item, visited));
+    }
+    return clone;
+  }
 
-  // Step 7: Handle Arrays
-  // Create a new array and deep clone each element
-
-  // Step 8: Handle plain Objects
-  // Create a new object and deep clone each property
-
-  return undefined; // Broken: Replace with your implementation
+  const clone = {};
+  visited.set(value, clone);
+  for (const [k, v] of Object.entries(value)) {
+    clone[k] = deepClone(v, visited);
+  }
+  return clone;
 }
 
 module.exports = { deepClone };
