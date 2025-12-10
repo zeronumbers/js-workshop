@@ -11,44 +11,40 @@
  * @returns {Function} Memoized function with cache control methods
  */
 function memoize(fn, options = {}) {
-  // TODO: Implement memoization
+  const {
+    maxSize = 100,
+    ttl = 5000,
+    keyGenerator = (args) => JSON.stringify(args),
+  } = options;
 
-  // Step 1: Extract options with defaults
-  // const { maxSize, ttl, keyGenerator } = options;
+  const cache = new Map();
 
-  // Step 2: Create the cache (use Map for ordered keys)
-  // const cache = new Map();
+  const memoized = function (...args) {
+    const cacheKey = keyGenerator(args);
+    const cacheObj = cache?.get(cacheKey);
+    const value = cacheObj?.value;
+    const timestamp = cacheObj?.timestamp;
 
-  // Step 3: Create default key generator
-  // Default: JSON.stringify(args) or args.join(',')
+    if (timestamp && new Date() - timestamp < ttl) {
+      return value;
+    }
 
-  // Step 4: Create the memoized function
-  // - Generate cache key from arguments
-  // - Check if key exists and is not expired (TTL)
-  // - If cached, return cached value
-  // - If not cached, call fn and store result
-  // - Handle maxSize eviction (remove oldest)
+    const computedValue = fn.apply(this, args);
+    cache.set(cacheKey, { value: computedValue, timestamp: new Date() });
 
-  // Step 5: Add cache control methods
-  // memoized.cache = {
-  //   clear: () => cache.clear(),
-  //   delete: (key) => cache.delete(key),
-  //   has: (key) => cache.has(key),
-  //   get size() { return cache.size; }
-  // };
+    if (cache.size > maxSize) {
+      const firstKey = cache.keys().next().value;
+      cache.delete(firstKey);
+    }
 
-  // Step 6: Return memoized function
-
-  // Return placeholder that doesn't work
-  const memoized = function () {
-    return undefined;
+    return computedValue;
   };
   memoized.cache = {
-    clear: () => {},
-    delete: () => false,
-    has: () => false,
+    clear: () => cache.clear(),
+    delete: () => cache.delete(key),
+    has: (key) => cache.has(key),
     get size() {
-      return -1;
+      return cache.size;
     },
   };
   return memoized;
