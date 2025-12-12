@@ -8,31 +8,25 @@
  * A class that only allows one instance to exist.
  */
 class Singleton {
-  // TODO: Implement Singleton
-
-  // Step 1: Create a static property to hold the instance
-  // static instance = null;
-
-  // Step 2: Create a getInstance static method
-  // - Check if instance exists
-  // - If not, create it
-  // - Return the instance
+  static instance = null;
 
   static getInstance() {
-    // TODO: Implement getInstance
-    throw new Error("Not implemented");
+    if (this.instance) {
+      return this.instance;
+    }
+
+    this.instance = new Singleton();
+    return this.instance;
   }
 
-  // Step 3: Optionally prevent direct instantiation
-  // constructor() {
-  //   if (Singleton.instance) {
-  //     throw new Error('Use Singleton.getInstance()');
-  //   }
-  // }
+  constructor() {
+    if (Singleton.instance) {
+      throw new Error("Use Singleton.getInstance()");
+    }
+  }
 
-  // Step 4: Add a reset method for testing
   static resetInstance() {
-    // TODO: Reset the instance to null
+    this.instance = null;
   }
 }
 
@@ -45,26 +39,18 @@ class Singleton {
  * @returns {Object} Object with getInstance method
  */
 function createSingleton(Class) {
-  // TODO: Implement createSingleton
-
-  // Step 1: Create a closure variable to hold the instance
-  // let instance = null;
-
-  // Step 2: Return an object with getInstance method
-  // getInstance should:
-  //   - Accept arguments to pass to constructor
-  //   - Only create instance on first call
-  //   - Return the same instance on subsequent calls
-
-  // Step 3: Optionally add resetInstance method
+  let instance = null;
 
   return {
     getInstance: (...args) => {
-      // TODO: Implement
-      throw new Error("Not implemented");
+      if (instance) {
+        return instance;
+      }
+      instance = new Class(...args);
+      return instance;
     },
     resetInstance: () => {
-      // TODO: Implement
+      instance = null;
     },
   };
 }
