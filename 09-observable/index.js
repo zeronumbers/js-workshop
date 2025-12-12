@@ -9,8 +9,8 @@ class Observable {
    * @param {Function} subscribeFn - Function called with subscriber on subscribe
    */
   constructor(subscribeFn) {
-    // TODO: Store the subscribe function
-    // this._subscribeFn = subscribeFn;
+    this._subscribeFn = subscribeFn;
+    this._isComplete = false;
   }
 
   /**
@@ -19,23 +19,40 @@ class Observable {
    * @returns {Object} Subscription with unsubscribe method
    */
   subscribe(observer) {
-    // TODO: Implement subscribe
+    if (typeof observer === "function") {
+      observer = { next: observer };
+    }
 
-    // Step 1: Normalize observer (handle function shorthand)
-    // If observer is a function, wrap it: { next: observer }
+    const subscriber = {
+      next: (value) => {
+        try {
+          if (!this._isComplete) {
+            return observer.next(value);
+          }
+          return observer;
+        } catch (err) {
+          return observer.error(err);
+        }
+      },
+      error: (err) => {
+        this._isComplete = true;
+        return observer?.error?.(err);
+      },
+      complete: () => {
+        this._isComplete = true;
+        observer?.complete?.();
+      },
+    };
 
-    // Step 2: Create a subscriber object that:
-    //   - Has next, error, complete methods
-    //   - Tracks if completed/errored (stops accepting values)
-    //   - Calls observer methods when appropriate
+    const cleanup = this._subscribeFn(subscriber);
 
-    // Step 3: Call the subscribe function with the subscriber
-
-    // Step 4: Handle cleanup function returned by subscribeFn
-
-    // Step 5: Return subscription object with unsubscribe method
-
-    throw new Error("Not implemented");
+    const subscription = {
+      unsubscribe: () => {
+        this._isComplete = true;
+        cleanup?.();
+      },
+    };
+    return subscription;
   }
 
   /**
@@ -44,14 +61,20 @@ class Observable {
    * @returns {Observable} New Observable with transformed values
    */
   map(fn) {
-    // TODO: Implement map operator
-
-    // Return new Observable that:
-    // - Subscribes to source (this)
-    // - Calls fn on each value
-    // - Emits transformed value
-
-    return new Observable(() => {}); // Broken: Replace with implementation
+    return new Observable((subscriber) => {
+      const subscription = this.subscribe({
+        next: (value) => {
+          try {
+            subscriber.next(fn(value));
+          } catch (err) {
+            subscriber.error(err);
+          }
+        },
+        error: (err) => subscriber.error(err),
+        complete: () => subscriber.complete(),
+      });
+      return () => subscription.unsubscribe();
+    });
   }
 
   /**
@@ -60,13 +83,22 @@ class Observable {
    * @returns {Observable} New Observable with filtered values
    */
   filter(predicate) {
-    // TODO: Implement filter operator
-
-    // Return new Observable that:
-    // - Subscribes to source (this)
-    // - Only emits values where predicate returns true
-
-    return new Observable(() => {}); // Broken: Replace with implementation
+    return new Observable((subscriber) => {
+      const subscription = this.subscribe({
+        next: (value) => {
+          try {
+            if (predicate(value)) {
+              subscriber.next(value);
+            }
+          } catch (err) {
+            subscriber.error(err);
+          }
+        },
+        error: (err) => subscriber.error(err),
+        complete: () => subscriber.complete(),
+      });
+      return () => subscription.unsubscribe();
+    });
   }
 
   /**
@@ -75,14 +107,25 @@ class Observable {
    * @returns {Observable} New Observable limited to count values
    */
   take(count) {
-    // TODO: Implement take operator
-
-    // Return new Observable that:
-    // - Subscribes to source (this)
-    // - Emits first `count` values
-    // - Completes after `count` values
-
-    return new Observable(() => {}); // Broken: Replace with implementation
+    return new Observable((subscriber) => {
+      const subscription = this.subscribe({
+        next: (value) => {
+          try {
+            if (count > 0) {
+              subscriber.next(value);
+              count--;
+            } else {
+              subscriber.complete();
+            }
+          } catch (err) {
+            subscriber.error(err);
+          }
+        },
+        error: (err) => subscriber.error(err),
+        complete: () => subscriber.complete(),
+      });
+      return () => subscription.unsubscribe();
+    });
   }
 
   /**
@@ -91,14 +134,24 @@ class Observable {
    * @returns {Observable} New Observable that skips first count values
    */
   skip(count) {
-    // TODO: Implement skip operator
-
-    // Return new Observable that:
-    // - Subscribes to source (this)
-    // - Ignores first `count` values
-    // - Emits remaining values
-
-    return new Observable(() => {}); // Broken: Replace with implementation
+    return new Observable((subscriber) => {
+      const subscription = this.subscribe({
+        next: (value) => {
+          try {
+            if (count > 0) {
+              count--;
+            } else {
+              subscriber.next(value);
+            }
+          } catch (err) {
+            subscriber.error(err);
+          }
+        },
+        error: (err) => subscriber.error(err),
+        complete: () => subscriber.complete(),
+      });
+      return () => subscription.unsubscribe();
+    });
   }
 
   /**
@@ -107,15 +160,11 @@ class Observable {
    * @returns {Observable} Observable that emits array values
    */
   static from(array) {
-    // TODO: Implement from
-
-    // Return new Observable that:
-    // - Emits each array element
-    // - Completes after last element
-
     return new Observable((subscriber) => {
-      // subscriber.next(...) for each
-      // subscriber.complete()
+      for (let item of array) {
+        subscriber.next(item);
+      }
+      subscriber.complete();
     });
   }
 
@@ -125,10 +174,6 @@ class Observable {
    * @returns {Observable} Observable that emits single value
    */
   static of(...values) {
-    // TODO: Implement of
-
-    // Return new Observable that emits all values then completes
-
     return Observable.from(values);
   }
 }
