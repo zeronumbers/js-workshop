@@ -251,6 +251,7 @@ describe("AsyncQueue", () => {
 
       await queue.add(async () => "task");
 
+      await delay(20);
       expect(emptyCalled).toBe(true);
     });
 
@@ -263,6 +264,7 @@ describe("AsyncQueue", () => {
 
       await queue.add(async () => {});
 
+      await delay(20);
       expect(calls).toEqual(["callback1", "callback2"]);
     });
 
