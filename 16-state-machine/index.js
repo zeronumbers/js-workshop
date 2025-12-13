@@ -10,13 +10,19 @@ class StateMachine {
    * @param {Object} [config.context] - Initial context data
    */
   constructor(config) {
-    // TODO: Implement constructor
-    // Step 1: Validate config has initial and states
-    // Step 2: Store configuration
-    // this.config = config;
-    // this.currentState = config.initial;
-    // this.context = config.context || {};
-    // Step 3: Validate initial state exists in states
+    if (!config.hasOwnProperty("states") || !config.hasOwnProperty("initial")) {
+      throw new Error("invalid config, it must have states and initial.");
+    }
+
+    this.config = config;
+    this.currentState = config.initial;
+    this.context = config.context || {};
+
+    if (!config?.states?.hasOwnProperty(config?.initial)) {
+      throw new Error(
+        `"config.states" doesn't have "config.initial" value ${config?.initial}`,
+      );
+    }
   }
 
   /**
@@ -24,8 +30,7 @@ class StateMachine {
    * @returns {string}
    */
   get state() {
-    // TODO: Return current state
-    throw new Error("Not implemented");
+    return this.currentState;
   }
 
   /**
@@ -35,27 +40,27 @@ class StateMachine {
    * @returns {boolean} Whether transition was successful
    */
   transition(event, payload) {
-    // TODO: Implement transition
+    const currentStateConfig = this.config.states[this.currentState];
 
-    // Step 1: Get current state config
+    if (!currentStateConfig.on.hasOwnProperty(event)) {
+      return false;
+    }
 
-    // Step 2: Check if event is valid for current state
-    // Return false if not
+    const transitionConfig = currentStateConfig.on[event];
+    const target =
+      typeof transitionConfig === "string"
+        ? transitionConfig
+        : transitionConfig.target;
 
-    // Step 3: Get transition config (can be string or object)
-    // If string: target = transition
-    // If object: { target, guard, action }
+    if (transitionConfig.guard && !transitionConfig?.guard?.(this.context)) {
+      return false;
+    }
+    console.log(this.currentState, target, transitionConfig);
+    this.currentState = target;
 
-    // Step 4: Check guard if present
-    // If guard returns false, return false
+    transitionConfig?.action?.(this.context);
 
-    // Step 5: Update state to target
-
-    // Step 6: Call action if present
-
-    // Step 7: Return true
-
-    throw new Error("Not implemented");
+    return true;
   }
 
   /**
@@ -64,12 +69,21 @@ class StateMachine {
    * @returns {boolean}
    */
   can(event) {
-    // TODO: Implement can
+    const currentStateConfig = this.config.states[this.currentState];
 
-    // Check if event exists for current state
-    // Check guard if present
+    if (!currentStateConfig.on.hasOwnProperty(event)) {
+      return false;
+    }
 
-    throw new Error("Not implemented");
+    if (currentStateConfig.on[event].guard) {
+      return false;
+    }
+
+    const transitionConfig = currentStateConfig.on[event];
+
+    return transitionConfig.hasOwnProperty("guard")
+      ? transitionConfig.guard(this.context)
+      : true;
   }
 
   /**
@@ -77,11 +91,7 @@ class StateMachine {
    * @returns {string[]} Array of event names
    */
   getAvailableTransitions() {
-    // TODO: Implement getAvailableTransitions
-
-    // Return array of event names from current state's 'on' config
-
-    throw new Error("Not implemented");
+    return Object.keys(this.config.states?.[this.currentState]?.on ?? {});
   }
 
   /**
@@ -89,8 +99,7 @@ class StateMachine {
    * @returns {Object}
    */
   getContext() {
-    // TODO: Return context
-    throw new Error("Not implemented");
+    return this.context;
   }
 
   /**
@@ -98,9 +107,11 @@ class StateMachine {
    * @param {Object|Function} updater - New context or updater function
    */
   updateContext(updater) {
-    // TODO: Implement updateContext
-    // If updater is function: this.context = updater(this.context)
-    // If updater is object: merge with existing context
+    if (typeof updater === "function") {
+      this.context = updater(this.context);
+    } else {
+      this.context = { ...this.context, ...updater };
+    }
   }
 
   /**
@@ -108,8 +119,10 @@ class StateMachine {
    * @returns {boolean}
    */
   isFinal() {
-    // TODO: Check if current state has no transitions
-    throw new Error("Not implemented");
+    return (
+      !this.config.states.hasOwnProperty(this.currentState) ||
+      !Object.keys(this.config.states[this.currentState]).length
+    );
   }
 
   /**
@@ -117,8 +130,8 @@ class StateMachine {
    * @param {Object} [newContext] - Optional new context
    */
   reset(newContext) {
-    // TODO: Reset to initial state
-    // Optionally reset context
+    this.currentState = this.config.initial;
+    this.context = newContext;
   }
 }
 
@@ -129,11 +142,6 @@ class StateMachine {
  * @returns {Function} Factory function that creates machines
  */
 function createMachine(config) {
-  // TODO: Implement createMachine
-
-  // Return a function that creates new StateMachine instances
-  // with the given config
-
   return () => new StateMachine(config);
 }
 
