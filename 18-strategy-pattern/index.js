@@ -13,18 +13,15 @@
  */
 class SortContext {
   constructor(strategy) {
-    // TODO: Store strategy
-    // this.strategy = strategy;
+    this.strategy = strategy;
   }
 
   setStrategy(strategy) {
-    // TODO: Update strategy
+    this.strategy = strategy;
   }
 
   sort(array) {
-    // TODO: Delegate to strategy
-    // Return sorted copy, don't mutate original
-    throw new Error("Not implemented");
+    return array.toSorted(this.strategy.execute);
   }
 }
 
@@ -33,10 +30,24 @@ class SortContext {
  */
 class BubbleSort {
   sort(array) {
-    // TODO: Implement bubble sort
-    // Return new sorted array
+    if (!array.length) return [];
+    let res = [...array];
+    // NOTE: a hack to start while loop, maybe do while is better idk.
+    let swapped = true;
+    while (swapped) {
+      swapped = false;
+      for (let i = 0; i < res.length - 1; i++) {
+        const num = res[i];
+        const nextNum = res[i + 1];
 
-    return ["NOT_IMPLEMENTED"]; // Broken: Replace with implementation
+        if (num > nextNum) {
+          res[i] = nextNum;
+          res[i + 1] = num;
+          swapped = true;
+        }
+      }
+    }
+    return res;
   }
 }
 
@@ -44,11 +55,46 @@ class BubbleSort {
  * Quick Sort Strategy
  */
 class QuickSort {
+  // NOTE: Lomuto partition scheme
+  // from: https://en.wikipedia.org/wiki/Quicksort
+  // most variables are renamed.
   sort(array) {
-    // TODO: Implement quick sort
-    // Return new sorted array
+    return this.#quickSort([...array], 0, array.length - 1);
+  }
 
-    return []; // Broken: Replace with implementation
+  #quickSort(arr, firstIndex, lastIndex) {
+    if (firstIndex >= lastIndex || firstIndex < 0) {
+      return arr;
+    }
+
+    const pivotIndex = this.#partition(arr, firstIndex, lastIndex);
+
+    this.#quickSort(arr, firstIndex, pivotIndex - 1);
+    this.#quickSort(arr, pivotIndex + 1, lastIndex);
+
+    return arr;
+  }
+
+  #partition(arr, firstIndex, lastIndex) {
+    const pivot = arr[lastIndex];
+
+    let i = firstIndex;
+
+    for (let j = firstIndex; j < lastIndex; j++) {
+      const current = arr[j];
+      if (current <= pivot) {
+        const ith = arr[i];
+        arr[i] = current;
+        arr[j] = ith;
+        i++;
+      }
+    }
+    const ith = arr[i];
+    const last = arr[lastIndex];
+
+    arr[i] = last;
+    arr[lastIndex] = ith;
+    return i;
   }
 }
 
@@ -56,11 +102,56 @@ class QuickSort {
  * Merge Sort Strategy
  */
 class MergeSort {
+  // https://en.wikipedia.org/wiki/Merge_sort#Top-down_implementation_using_lists
+  // with minor changes like storing left[0] right[0] in variables.
   sort(array) {
-    // TODO: Implement merge sort
-    // Return new sorted array
+    return this.#mergeSort([...array]);
+  }
+  #mergeSort(arr) {
+    if (arr.length <= 1) {
+      return arr;
+    }
 
-    return []; // Broken: Replace with implementation
+    let left = [];
+    let right = [];
+    arr.forEach((x, i) => {
+      if (i < arr.length / 2) {
+        left.push(x);
+      } else {
+        right.push(x);
+      }
+    });
+    left = this.#mergeSort(left);
+    right = this.#mergeSort(right);
+
+    return this.#merge(left, right);
+  }
+  #merge(left, right) {
+    let result = [];
+
+    while (left.length && right.length) {
+      const lFirst = left[0];
+      const rFirst = right[0];
+
+      if (lFirst <= rFirst) {
+        result.push(lFirst);
+        left.shift();
+      } else {
+        result.push(rFirst);
+        right.shift();
+      }
+    }
+
+    while (left.length) {
+      result.push(left[0]);
+      left.shift();
+    }
+
+    while (right.length) {
+      result.push(right[0]);
+      right.shift();
+    }
+    return result;
   }
 }
 
@@ -75,26 +166,26 @@ class MergeSort {
  */
 class PricingContext {
   constructor(strategy) {
-    // TODO: Store strategy
+    this.strategy = strategy;
   }
 
   setStrategy(strategy) {
-    // TODO: Update strategy
+    this.strategy = strategy;
   }
 
   calculateTotal(items) {
-    // TODO: Delegate to strategy
-    throw new Error("Not implemented");
+    return this.strategy.calculate(items);
   }
 }
+
+const sumPrices = (items) => items.reduce((sum, { price }) => sum + price, 0);
 
 /**
  * Regular Pricing (no discount)
  */
 class RegularPricing {
   calculate(items) {
-    // TODO: Sum all item prices
-    throw new Error("Not implemented");
+    return sumPrices(items);
   }
 }
 
@@ -103,14 +194,13 @@ class RegularPricing {
  */
 class PercentageDiscount {
   constructor(percentage) {
-    // TODO: Store percentage (0-100)
-    // this.percentage = percentage;
+    this.percentage = percentage;
   }
 
   calculate(items) {
-    // TODO: Apply percentage discount
-    // total * (1 - percentage/100)
-    throw new Error("Not implemented");
+    const total = sumPrices(items);
+
+    return total * (1 - this.percentage / 100);
   }
 }
 
@@ -119,14 +209,12 @@ class PercentageDiscount {
  */
 class FixedDiscount {
   constructor(amount) {
-    // TODO: Store fixed discount amount
-    // this.amount = amount;
+    this.amount = amount;
   }
 
   calculate(items) {
-    // TODO: Subtract fixed amount from total
-    // Don't go below 0
-    throw new Error("Not implemented");
+    const total = sumPrices(items) - this.amount;
+    return total >= 0 ? total : 0;
   }
 }
 
@@ -135,9 +223,15 @@ class FixedDiscount {
  */
 class BuyOneGetOneFree {
   calculate(items) {
-    // TODO: Every second item is free
-    // Sort by price desc, charge only every other item
-    throw new Error("Not implemented");
+    let total = 0;
+    items
+      .toSorted((a, b) => b.price - a.price)
+      .forEach(({ price }, i) => {
+        if (i % 2 === 0) {
+          total += price;
+        }
+      });
+    return total;
   }
 }
 
@@ -148,14 +242,15 @@ class BuyOneGetOneFree {
  */
 class TieredDiscount {
   constructor(tiers) {
-    // TODO: Store tiers
-    // tiers = [{ threshold: 100, discount: 10 }, { threshold: 200, discount: 20 }]
-    // this.tiers = tiers;
+    this.tiers = tiers;
   }
 
   calculate(items) {
-    // TODO: Apply tier discount based on subtotal
-    throw new Error("Not implemented");
+    const total = sumPrices(items);
+    const tier = this.tiers
+      .toSorted((a, b) => b.threshold - a.threshold)
+      .find((obj) => total >= obj.threshold);
+    return tier ? total * (1 - tier.discount / 100) : total;
   }
 }
 
@@ -168,16 +263,15 @@ class TieredDiscount {
  */
 class ValidationContext {
   constructor(strategy) {
-    // TODO: Store strategy
+    this.strategy = strategy;
   }
 
   setStrategy(strategy) {
-    // TODO: Update strategy
+    this.strategy = strategy;
   }
 
   validate(data) {
-    // TODO: Delegate to strategy
-    throw new Error("Not implemented");
+    return this.strategy.validate(data);
   }
 }
 
@@ -191,10 +285,27 @@ class ValidationContext {
  */
 class StrictValidation {
   validate(data) {
-    // TODO: Validate that name, email, and age are all present and valid
-    // Return { valid: boolean, errors: string[] }
-    // Example: { valid: false, errors: ["Name is required", "Email is required"] }
-    throw new Error("Not implemented");
+    let errors = [];
+    if (!(typeof data?.name === "string")) {
+      errors.push("Name is required");
+    } else if (!data.name) {
+      errors.push("Empty name");
+    }
+
+    if (!(typeof data?.email === "string")) {
+      errors.push("Email is required");
+    } else if (!data.email) {
+      errors.push("Empty email");
+    }
+
+    if (!(typeof data?.age === "number")) {
+      errors.push("Age is required");
+      // NOTE: considering NaN and Infinity as not valid.
+    } else if (!Number.isFinite(data.age)) {
+      errors.push("Age must be number");
+    }
+
+    return { valid: !errors.length, errors };
   }
 }
 
@@ -206,9 +317,7 @@ class StrictValidation {
  */
 class LenientValidation {
   validate(data) {
-    // TODO: Always return valid: true, errors: []
-    // This strategy has no validation rules
-    return { valid: false, errors: ["Not implemented"] }; // Broken: Replace with implementation
+    return { valid: true, errors: [] };
   }
 }
 
@@ -223,22 +332,19 @@ class LenientValidation {
  */
 class StrategyRegistry {
   constructor() {
-    // TODO: Initialize registry map
-    // this.strategies = new Map();
+    this.strategies = new Map();
   }
 
   register(name, strategy) {
-    // TODO: Store strategy by name
+    this.strategies.set(name, strategy);
   }
 
   get(name) {
-    // TODO: Return strategy by name
-    throw new Error("Not implemented");
+    return this.strategies.get(name) ?? null;
   }
 
   has(name) {
-    // TODO: Check if strategy exists
-    throw new Error("Not implemented");
+    return this.strategies.has(name);
   }
 }
 
