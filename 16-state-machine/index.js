@@ -55,7 +55,6 @@ class StateMachine {
     if (transitionConfig.guard && !transitionConfig?.guard?.(this.context)) {
       return false;
     }
-    console.log(this.currentState, target, transitionConfig);
     this.currentState = target;
 
     transitionConfig?.action?.(this.context);
